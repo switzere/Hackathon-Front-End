@@ -6,8 +6,16 @@ import MultiSelect from "react-multi-select-component";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Checkbox } from "semantic-ui-react";
+import { Combobox } from "react-widgets";
+import { Dropdown } from "semantic-ui-react";
 
 import axios from "axios";
+
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href =
+  "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
 
 const { getName } = require("country-list");
 const { getCode } = require("country-list");
@@ -15,6 +23,7 @@ const { getCode } = require("country-list");
 class Map extends React.Component {
   state = {
     countriesCodesArray: [],
+    dropDownOptions: [],
     countriesNamesArray: [],
     columnHeader: ["Visa Free Countries"],
     countries: [],
@@ -24,6 +33,7 @@ class Map extends React.Component {
     titleSet: false,
     color: "#48aeef",
     checked: [],
+    dropDownChoice: "",
     namesToSend: [],
     selectedOptions: [],
     options: [
@@ -296,9 +306,19 @@ class Map extends React.Component {
         const countries = res.data;
         const countriesNamesArray = res.data;
         console.log(res.data);
-        console.log(res);
+        console.log(res.data[0]);
         this.setState({ countries });
         this.setState({ countriesNamesArray });
+        const dropDownOptions = [];
+        for (var i = 0; i < res.data.length; i++) {
+          dropDownOptions.push({
+            key: res.data[i],
+            text: res.data[i],
+            value: res.data[i],
+          });
+        }
+        this.setState({ dropDownOptions });
+        console.log(dropDownOptions);
       })
       .catch((error) => {
         console.log(error);
@@ -375,18 +395,16 @@ class Map extends React.Component {
       mapList,
       titleSet,
       checked,
+      dropDownOptions,
+      dropDownChoice,
       tableData,
       data,
     } = this.state;
 
     const handleClickGo = () => {
-      var i;
-      for (i = 0; i < checked.length; i++) {
-        namesToSend[0] = countries[checked[i]];
-      }
-      console.log(namesToSend[0]);
+      console.log(dropDownChoice);
       axios
-        .get("http://localhost:5000/requests/" + namesToSend[0])
+        .get("http://localhost:5000/requests/" + dropDownChoice)
         .then((res) => {
           console.log(res.data[0]);
           console.log(res.data[0].VisaFree);
@@ -467,6 +485,10 @@ class Map extends React.Component {
       return rows;
     };
 
+    const saveValue = (e, { value }) => {
+      this.setState({ dropDownChoice: value });
+    };
+
     return (
       <div>
         <div class="center">
@@ -479,24 +501,14 @@ class Map extends React.Component {
           <tbody>{generateTableData()}</tbody>
         </table>
         <div id="whatIsSelected"></div>
-        {/* <MultiSelect
-          selectedOptions={selectedItems}
-          options={options}
-          onChange={this.onChange}
-        /> */}
-
-        {this.state.countries.map((countries, i) => {
-          return (
-            <label key={countries[this.props.id]}>
-              <input
-                type="checkbox"
-                value={i}
-                onChange={onRadioChange.bind(this)}
-              />
-              {countries}
-            </label>
-          );
-        })}
+        <Dropdown
+          placeholder="Select Country"
+          fluid
+          selection
+          onChange={saveValue}
+          options={dropDownOptions}
+          value={dropDownChoice}
+        />
 
         <button onClick={handleClickGo}>GO</button>
 
