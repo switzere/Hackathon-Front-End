@@ -372,6 +372,7 @@ class Map extends React.Component {
       countries,
       namesToSend,
       color,
+      data,
       mapList,
       titleSet,
       checked,
@@ -420,6 +421,7 @@ class Map extends React.Component {
         var cCode = getCode(toHighlight[i].country);
         data[cCode] = 100000;
         console.log(toHighlight[i].country + " = " + cCode);
+        data[cCode] = 100000;
       }
     };
 
@@ -483,6 +485,7 @@ class Map extends React.Component {
           options={options}
           onChange={this.onChange}
         /> */}
+
         {this.state.countries.map((countries, i) => {
           return (
             <label key={countries[this.props.id]}>
