@@ -16,7 +16,7 @@ class Map extends React.Component {
   state = {
     countriesCodesArray: [],
     countriesNamesArray: [],
-    columnHeader: ["Country", "Conversion"],
+    columnHeader: ["Visa Free Countries"],
     countries: [],
     tableData: [],
     data: {},
@@ -376,6 +376,7 @@ class Map extends React.Component {
       titleSet,
       checked,
       tableData,
+      data,
     } = this.state;
 
     const handleClickGo = () => {
@@ -414,6 +415,7 @@ class Map extends React.Component {
       for (var i = 0; i < toHighlight.length - 1; i++) {
         console.log(toHighlight[i].country);
         var cCode = getCode(toHighlight[i].country);
+        data[cCode] = 100000;
         console.log(toHighlight[i].country + " = " + cCode);
       }
     };
