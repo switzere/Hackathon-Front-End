@@ -25,7 +25,7 @@ class Map extends React.Component {
     countriesCodesArray: [],
     dropDownOptions: [],
     countriesNamesArray: [],
-    columnHeader: ["Country", "Conversion"],
+    columnHeader: ["Visa Free Countries"],
     countries: [],
     tableData: [],
     data: {},
@@ -392,13 +392,13 @@ class Map extends React.Component {
       countries,
       namesToSend,
       color,
-      data,
       mapList,
       titleSet,
       checked,
       dropDownOptions,
       dropDownChoice,
       tableData,
+      data,
     } = this.state;
 
     const handleClickGo = () => {
@@ -432,12 +432,13 @@ class Map extends React.Component {
     };
 
     const highlightMap = (toHighlight) => {
-      console.log(toHighlight.length);
+      Object.keys(data).forEach((param) => {
+        data[param] = 15000804;
+      });
       for (var i = 0; i < toHighlight.length - 1; i++) {
-        console.log(toHighlight[i].country);
         var cCode = getCode(toHighlight[i].country);
-        console.log(toHighlight[i].country + " = " + cCode);
         data[cCode] = 100000;
+        console.log(toHighlight[i].country + " = " + cCode);
       }
     };
 
@@ -543,7 +544,7 @@ class Map extends React.Component {
             regions: [
               {
                 values: this.state.data, //this is your data
-                scale: ["#146804", "#ff0000"], //your color game's here
+                scale: ["#ff0000", "#e4e4e4"], //your color game's here
                 normalizeFunction: "polynomial",
               },
             ],
