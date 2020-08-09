@@ -293,9 +293,9 @@ class Map extends React.Component {
     axios
       .get("http://localhost:5000/requests/getCountries/")
       .then((res) => {
-        const countries = res.data.countries;
-        const countriesNamesArray = res.data.countries;
-        console.log(res.data.countries);
+        const countries = res.data;
+        const countriesNamesArray = res.data;
+        console.log(res.data);
         console.log(res);
         this.setState({ countries });
         this.setState({ countriesNamesArray });
@@ -381,13 +381,16 @@ class Map extends React.Component {
     const handleClickGo = () => {
       var i;
       for (i = 0; i < checked.length; i++) {
-        namesToSend[i] = countries[checked[i]];
+        namesToSend[0] = countries[checked[i]];
       }
-      console.log(namesToSend);
+      console.log(namesToSend[0]);
       axios
-        .post("http://localhost:5000/requests/getCountryInfo/", { namesToSend })
+        .get("http://localhost:5000/requests/" + namesToSend[0])
         .then((res) => {
-          const tableData = mappings(res.data.countries);
+          console.log(res.data[0]);
+          console.log(res.data[0].VisaFree);
+
+          const tableData = mappings(res.data[0].VisaFree);
           highlightMap(tableData);
           this.setState({ tableData });
         })
