@@ -6,12 +6,15 @@ import MultiSelect from "react-multi-select-component";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
+import axios from "axios";
+
 const { getName } = require("country-list");
 
 class Map extends React.Component {
   state = {
     countriesCodesArray: [],
     countriesNamesArray: [],
+    countries: [],
     data: {},
     title: "",
     titleSet: false,
@@ -28,6 +31,18 @@ class Map extends React.Component {
       { label: "Peach 🍑", value: "peach" },
     ],
   };
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/requests/getCountries/")
+      .then((res) => {
+        const countries = res;
+        console.log(res);
+        this.setState({ countries });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   handleClick1 = (e, countryCode) => {
     const { countriesCodesArray } = this.state;
