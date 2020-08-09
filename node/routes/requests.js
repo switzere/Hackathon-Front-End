@@ -21,9 +21,9 @@ router.route("/getCountryInfo").post((req, res) => {
     countries: [
       { country: "Canada", conversion: "1.13" },
       { country: "Japan", conversion: "2.1" },
-      { country: "Korea", conversion: "??" },
-      { country: "United States", conversion: "1.43" },
-      { country: "European Union", conversion: ".84" },
+      { country: "South_Korea", conversion: "??" },
+      { country: "United_States", conversion: "1.43" },
+      { country: "South_Korea", conversion: "??" },
     ],
   });
   //.catch((err) => res.status(400).json("Error: " + err));
